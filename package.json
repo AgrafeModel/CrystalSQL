@@ -16,16 +16,23 @@
     "build:linux": "nextron build --linux"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@nextui-org/react": "^2.1.13",
     "electron-serve": "^1.1.0",
-    "electron-store": "^8.1.0"
+    "electron-store": "^8.1.0",
+    "framer-motion": "^10.16.4",
+    "next-themes": "^0.2.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
     "autoprefixer": "^10.4.16",
+    "daisyui": "^3.9.3",
     "electron": "^26.2.2",
     "electron-builder": "^24.6.4",
-    "next": "^12.3.4",
+    "next": "^13.2.4",
     "nextron": "^8.12.0",
     "postcss": "^8.4.30",
     "react": "^18.2.0",
