@@ -19,9 +19,17 @@ But why ?
 
 -   [x] Connect to a database
 -   [x] Execute SQL queries
--   [-] Save queries
 -   [x] Save connections
 -   [x] Multiple themes
+
+### Planned
+
+-   [ ] Multiple tabs
+-   [ ] Multiple connections
+-   [ ] Save queries
+-   [ ] Export results
+-   [ ] Import connections
+-   [ ] Import queries
 
 
 ## Usage
