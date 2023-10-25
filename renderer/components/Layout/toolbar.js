@@ -23,8 +23,8 @@ export default function Toolbar() {
 
 
     return (
-        <div className="flex flex-row justify-between items-center w-full h-8 bg-primary-200 z-50"
-            style={{ WebkitAppRegion: 'drag' }}>
+        <div className="flex flex-row justify-between items-center w-full h-8 bg-primary-200"
+            style={{ WebkitAppRegion: 'drag', zIndex: 1000 }}>
             {!isMac ? <div className="flex flex-row gap-2 items-center px-2">
                     <p className="text-primary text-opacity-50 text-sm">CrystalSQL</p>
                 </div> : null}

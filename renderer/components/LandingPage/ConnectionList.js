@@ -30,7 +30,7 @@ export default function ConnectionList({ connections, setConnectionList, filter 
 
     return (
         <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  gap-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
                 {connectionsDisplay && Object.values(connectionsDisplay).map((connection, index) => (
                     <ConnectionCard key={index} connection={connection} connectionList={connections} setConnectionList={setConnectionList} />
                 ))}

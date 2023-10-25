@@ -7,4 +7,16 @@ module.exports = {
   webpack: (config) => {
     return config
   },
+  //rewrite for /database to /database/dashboard
+  async rewrites() {
+    return [
+      {
+        source: '/database',
+        destination: '/database/dashboard',
+      },
+    ]
+  },
+  
 }
+
+

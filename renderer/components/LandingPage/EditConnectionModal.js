@@ -180,7 +180,7 @@ export default function EditConnectionModal({ originalConnection = { port: 3306,
                                     <SelectItem key="oracle" value="oracle">Oracle</SelectItem>
 
                                 </Select>
-                                <Switch color='secondary' className='mb-2' onValueChange={setIsSSH} defaultValue={isSSH}>
+                                <Switch color='secondary' className='mb-2' onValueChange={(e) => setConnection({ ...connection, ssl: e })} defaultValue={connection.ssl}>
                                     <p className='text-primary'>SSL</p>
                                 </Switch>
                             </div>

@@ -76,7 +76,6 @@ function ThemeSelector() {
             secondary: colorsByTheme[theme].colors.primary.foreground,
             background: colorsByTheme[theme].colors.background,
         }
-        console.log(selectedColor)
         return (
             <Card className={"w-[200px] space-y-5 p-4 px-6 h-64"}
                 style={{ background: selectedColor.background }}
@@ -121,11 +120,15 @@ function ThemeSelector() {
     ]
 
 
-    const updateTheme = (theme) => {
-
+    const updateTheme = (n) => {
+        console.log(n, theme)
         //check if not [Object object] to avoid strange bug, or object type
-        if (theme !== "[object Object]" && theme !== "[object Object]" && typeof theme !== 'object' && theme !== null && theme !== undefined)
-            setTheme(theme)
+        if (n !== "[object Object]" && n !== "[object Object]" && typeof n !== 'object' && n !== null && n !== undefined && n !== theme) {
+                setTheme(n)
+                //rerender all components 
+                
+            
+        }
     }
 
 
@@ -170,9 +173,6 @@ function ThemeSelector() {
 
 export default function SettingsModal() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-
-
 
     return (
         <>

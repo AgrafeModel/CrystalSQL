@@ -35,6 +35,7 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
         window.ipc.on('database-connected', (event, arg) => {
             //if connection successful, change page to database page
             if (event.success) {
+                console.log(event)
                 //Save the data in local storage
                 localStorage.setItem('connection', JSON.stringify(event.data))
                //change front end page to database page
@@ -59,22 +60,21 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
         <>
             <Card width={500} shadow>
                 <CardBody>
-                    <div className="flex flex-row gap-4 w-full">
+                    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 w-full">
                         <div className="flex flex-col gap-1 w-full justify-center items-center">
-
                             <Image src={connectionIMG[connection.type]}
                                 width={75}
                                 height={50}
                                 alt={connection.type}
                             />
                         </div>
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-1 text-center md:text-left">
                             <p className='text-primary text-lg'>{connection.name}</p>
                             <p className='text-primary text-sm text-opacity-50'>{connection.type}</p>
                             <p className='text-primary text-sm'>{connection.host}</p>
                             <p className='text-primary text-sm'>{connection.username}</p>
                         </div>
-                        <div className="flex flex-row gap-1 justify-end self-start w-full">
+                        <div className="flex flex-row gap-1 justify-end self-start w-full row-start-1 md:row-start-auto">
                             <EditConnectionModal
                                 originalConnection={connection}
                                 connectionList={connectionList}

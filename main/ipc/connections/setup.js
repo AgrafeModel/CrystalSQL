@@ -81,7 +81,7 @@ function setupConnectionEvent() {
             //check if success
             console.log(response)
             if(response.success){
-                event.reply('database-connected', { success: true, message: 'Connection success' })
+                event.reply('database-connected', { success: true, message: 'Connection success', data: connection })
             }
             else{
                 event.reply('database-connected', { success: false, message: `Connection failed: ${response.message}` })
@@ -99,6 +99,13 @@ function setupConnectionEvent() {
         disconnectFromDatabase()
         event.reply('database-disconnected', 'Database disconnected')
     })
+
+    //Get current database connection info
+    ipcMain.on('get-database-connection', (event, arg) => {
+        const connection = connectionStore.get('connection')
+        event.reply('database-connection', connection)
+    })
+
 
 }
 
