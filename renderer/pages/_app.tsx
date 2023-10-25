@@ -10,7 +10,7 @@ config.autoAddCss = false;
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <NextUIProvider> 
-      <NextThemesProvider attribute="class" defaultTheme="purple-dark">
+      <NextThemesProvider attribute="class" defaultTheme={"light"}>
       <Component {...pageProps} />
       </NextThemesProvider>
     </NextUIProvider>

@@ -1,5 +1,5 @@
-appId: com.example.app
-productName: My App
+appId: com.amethyst.app
+productName: Amethyst
 copyright: Copyright (c) 2023
 directories:
   output: dist

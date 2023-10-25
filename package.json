@@ -1,9 +1,9 @@
 {
   "private": true,
-  "name": "my-nextron-app",
-  "description": "My application description",
+  "name": "amethyste",
+  "description": "Amethyste is a free and open-source SQL client with a focus on user experience.",
   "version": "1.0.0",
-  "author": "Yoshihide Shiono <shiono.yoshihide@gmail.com>",
+  "author": "Deguisne Corentin",
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
@@ -20,10 +20,19 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@nextui-org/react": "^2.1.13",
+    "@react-stately/data": "^3.10.3",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "framer-motion": "^10.16.4",
-    "next-themes": "^0.2.1"
+    "mariadb": "^3.2.2",
+    "mysql2": "^3.6.2",
+    "next-themes": "^0.2.1",
+    "oracledb": "^6.2.0",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.33.0",
+    "sqlite3": "^5.0.3",
+    "tedious": "^16.5.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
