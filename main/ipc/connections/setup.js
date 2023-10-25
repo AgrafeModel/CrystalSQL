@@ -18,7 +18,7 @@ function setupConnectionEvent() {
         arg.id = connections.length + 1
         connections.push(arg)
         connectionStore.set('connections', connections)
-        event.reply('connection-saved', 'Connection saved')
+        event.reply('connection-saved', { success: true, message: 'Connection saved', data: arg })
     })
     //Get all connections
     ipcMain.on('get-connections', (event, arg) => {
@@ -52,7 +52,7 @@ function setupConnectionEvent() {
         console.log(newConnections)
         newConnections.push(arg)
         connectionStore.set('connections', newConnections)
-        event.reply('connection-updated', 'Connection updated')
+        event.reply('connection-updated', { success: true, message: 'Connection updated', data: arg })
     })
 
     //test connection

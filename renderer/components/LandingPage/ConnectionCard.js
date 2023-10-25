@@ -28,6 +28,8 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
         window.ipc.send('connect-to-database', connection.id)
     }
 
+
+
     React.useEffect(() => {
         //listen for database-connected event
         window.ipc.on('database-connected', (event, arg) => {
@@ -36,14 +38,20 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
                 //Save the data in local storage
                 localStorage.setItem('connection', JSON.stringify(event.data))
                //change front end page to database page
-                router.push('/database')
+                router.push('/database', null, { shallow: true });
             }
             else {
                 setConnectionError(event.message)
                 setConnectionLoading(false)
             }
         })
+
+
+
+
     }, [])
+
+
 
 
 
@@ -67,7 +75,12 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
                             <p className='text-primary text-sm'>{connection.username}</p>
                         </div>
                         <div className="flex flex-row gap-1 justify-end self-start w-full">
-                            <EditConnectionModal originalConnection={connection} connectionList={connectionList} setConnectionList={setConnectionList} isForEdit/>
+                            <EditConnectionModal
+                                originalConnection={connection}
+                                connectionList={connectionList}
+                                setConnectionList={setConnectionList}
+                                isForEdit={true}
+                            />
                         </div>
                     </div>
                 </CardBody>

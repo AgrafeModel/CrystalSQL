@@ -18,19 +18,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 
-export default function EditConnectionModal({ originalConnection = {
-    port: 3306,
-}, connectionList, setConnectionList, isForEdit }) {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+export default function EditConnectionModal({ originalConnection = { port: 3306, }, isForEdit, setConnectionList, connectionList }) {
+    const { isOpen, onClose, onOpen, onOpenChange } = useDisclosure();
     const [isSSH, setIsSSH] = React.useState(originalConnection.sshUsername ? true : false);
     const [error, setError] = React.useState({});
     const [connection, setConnection] = React.useState(originalConnection);
     const [clearValidationOpen, setClearValidationOpen] = React.useState(false);
     const [testResult, setTestResult] = React.useState({});
+    const [isSendingLoading, setIsSendingLoading] = React.useState(false);
 
+
+    React.useEffect(() => {
+        console.log(connectionList);
+    }, [connectionList])
 
     const saveConnection = () => {
         setError({});
+        setIsSendingLoading(true);
         //check if connection is valid
         if (connection.name && connection.type && connection.host && connection.port && connection.username && connection.password && connection.database) {
             //save connection
@@ -39,29 +43,64 @@ export default function EditConnectionModal({ originalConnection = {
             if (isForEdit) {
                 //update connection
                 window.ipc.send('update-connection', connection);
-                //update connection list
-                if (connectionList && setConnectionList) {
-                    console.log(connectionList);
-                    const newConnectionList = connectionList.filter(connection => connection.id !== originalConnection.id);
-                    setConnectionList([...newConnectionList, connection]);
-                }
             }
             else {
                 //Send to main process
                 window.ipc.send('save-connection', connection);
-                //add to connection list
-                if (connectionList && setConnectionList) {
-                    setConnectionList([...connectionList, connection]);
-                }
+
             }
-            //close modal
-            onOpenChange();
+            console.log(connectionList);
         } else {
             //show error
             setError({ message: "Please fill all fields" });
+            setIsSendingLoading(false);
         }
 
     }
+
+    React.useEffect(() => {
+        //listen for connection-saved event
+        window.ipc.on('connection-saved', (event, arg) => {
+            //if connection successful, change page to database page
+            if (event.success) {
+                //close modal
+                onClose();
+                //add connection to connection list
+                setConnectionList([...connectionList, event.data]);
+                //reset connection
+                setConnection(originalConnection);
+                setIsSendingLoading(false);
+            }
+            else {
+                setError({ message: event.message });
+                setIsSendingLoading(false);
+            }
+        })
+
+        //listen for connection-updated event
+        window.ipc.on('connection-updated', (event, arg) => {
+            //if connection successful, change page to database page
+            if (event.success) {
+                //close modal
+                onClose();
+                //update connection in connection list (it's an array, so we need to find the index of the connection and replace it)
+                const index = connectionList.findIndex(connection => connection.id === event.data.id);
+                const newConnectionList = [...connectionList];
+                newConnectionList[index] = event.data;
+
+                setConnectionList(newConnectionList);
+                //reset connection
+                setConnection(originalConnection);
+                setIsSendingLoading(false);
+            }
+            else {
+                setError({ message: event.message });
+                setIsSendingLoading(false);
+            }
+        })
+
+    }, [])
+
 
     const testConnection = () => {
         setError({});
@@ -76,18 +115,12 @@ export default function EditConnectionModal({ originalConnection = {
     }
 
     React.useEffect(() => {
-        //when modal closes
         if (!isOpen) {
-            //reset test result
             setTestResult({});
-            //and error
             setError({});
-            //reset connection
             setConnection(originalConnection);
         }
     }, [isOpen])
-
-
 
     React.useEffect(() => {
         window.ipc.on('connection-tested', (event, arg) => {
@@ -106,32 +139,29 @@ export default function EditConnectionModal({ originalConnection = {
 
 
     const deleteConnection = () => {
+
         //close modal
-        onOpenChange();
+        onClose();
         //delete connection
         window.ipc.send('delete-connection', originalConnection.id);
-        //delete connection from connection list
-        if (connectionList && setConnectionList) {
-            const newConnectionList = connectionList.filter(connection => connection.id !== originalConnection.id);
-            setConnectionList(newConnectionList);
-        }
+        //remove from connection list
+        const newConnectionList = connectionList.filter(connection => connection.id !== originalConnection.id);
+        setConnectionList(newConnectionList);
 
     }
 
 
-
-
-
-
     return (
+
         <>
             {isForEdit ? (
                 <Button color='primary' variant='flat' auto startContent={<FontAwesomeIcon icon={faEdit} />} isIconOnly onPress={onOpen}></Button>) : (
                 <Button onPress={onOpen} color='primary' variant='flat' auto className='rounded-none'>
                     Add
                 </Button>)}
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size='3xl'>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} size='3xl' isDismissable={false}>
                 <ModalContent>
+
                     <ModalHeader className="flex flex-col gap-1" align='center' justify='center' color='primary'>
                         Edit Connection
                     </ModalHeader>
@@ -141,9 +171,7 @@ export default function EditConnectionModal({ originalConnection = {
                                 <Input placeholder="Name" width="100%" color='primary' variant='flat' label='Name' labelPlacement='outside' onChange={(e) => setConnection({ ...connection, name: e.target.value })} defaultValue={connection.name} />
                                 <Select placeholder="Select" width="100%" color='primary' variant='flat' label='Database Type' labelPlacement='outside' onChange={(e) => setConnection({ ...connection, type: e.target.value })}
                                     selectedKeys={connection.type && connection.type.toString() ? [connection.type.toString()] : []}
-
                                     defaultValue={connection.type}>
-
                                     <SelectItem key="mysql" value="mysql">MySQL</SelectItem>
                                     <SelectItem key="mariadb" value="mariadb">MariaDB</SelectItem>
                                     <SelectItem key="postgres" value="postgres">Postgres</SelectItem>
@@ -222,7 +250,7 @@ export default function EditConnectionModal({ originalConnection = {
                             <Button color='primary' variant='light' auto startContent={<FontAwesomeIcon icon={faBan} />} onClick={onOpenChange}>
                                 Cancel
                             </Button>
-                            <Button color='primary' variant='flat' auto startContent={<FontAwesomeIcon icon={faPlus} />} onClick={saveConnection}>
+                            <Button color='primary' variant='flat' auto startContent={<FontAwesomeIcon icon={faPlus} />} onClick={saveConnection} isLoading={isSendingLoading}>
                                 Save
                             </Button>
                         </div>
@@ -231,6 +259,7 @@ export default function EditConnectionModal({ originalConnection = {
             </Modal>
 
         </>
+
     );
 }
 
