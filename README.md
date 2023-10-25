@@ -22,7 +22,8 @@ But why ?
 -   [x] Save connections
 -   [x] Multiple themes
 
-### Planned
+### Planned 
+
 
 -   [ ] Multiple tabs
 -   [ ] Multiple connections
