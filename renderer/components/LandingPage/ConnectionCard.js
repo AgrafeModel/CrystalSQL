@@ -23,6 +23,7 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
 
     const connect = () => {
         setConnectionLoading(true)
+        setConnectionError(null)
         //connect to database. If success, change page to database page
         window.ipc.send('connect-to-database', connection.id)
     }
@@ -38,7 +39,8 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
                 router.push('/database')
             }
             else {
-                setConnectionError(arg.message)
+                setConnectionError(event.message)
+                setConnectionLoading(false)
             }
         })
     }, [])
@@ -47,7 +49,7 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
 
     return (
         <>
-            <Card className='w-full'>
+            <Card width={500} shadow>
                 <CardBody>
                     <div className="flex flex-row gap-4 w-full">
                         <div className="flex flex-col gap-1 w-full justify-center items-center">
@@ -70,7 +72,8 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
                     </div>
                 </CardBody>
                 <CardFooter className='w-full'>
-                    <div className="flex flex-row gap-2 w-full justify-end">
+                    <div className="flex flex-col gap-2 w-full justify-end">
+                        {connectionError && <p className='text-red-500 text-sm'>{connectionError}</p>}
                         <Button color='primary' variant='flat' auto startContent={<FontAwesomeIcon icon={faPlug} />} className='w-full' onClick={connect} isLoading={connectionLoading}>
                             Connect
                         </Button>

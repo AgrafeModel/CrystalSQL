@@ -6,6 +6,7 @@ import fs from "fs";
 import setupPingEvent from "./ipc/ping";
 import setupConnectionEvent from "./ipc/connections/setup";
 import setupAppEvents from "./ipc/app";
+import setupQueryEvent from "./ipc/query/setup";
 
 
 const isProd = process.env.NODE_ENV === "production";
@@ -58,6 +59,7 @@ app.on("window-all-closed", () => {
 
 setupAppEvents();
 setupPingEvent();
+setupQueryEvent();
 setupConnectionEvent();
 
 

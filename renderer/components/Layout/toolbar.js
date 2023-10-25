@@ -26,7 +26,7 @@ export default function Toolbar() {
         <div className="flex flex-row justify-between items-center w-full h-8 bg-primary-200 z-50"
             style={{ WebkitAppRegion: 'drag' }}>
             {!isMac ? <div className="flex flex-row gap-2 items-center px-2">
-                    <p className="text-primary text-opacity-50 text-sm">Amethyst</p>
+                    <p className="text-primary text-opacity-50 text-sm">CrystalSQL</p>
                 </div> : null}
             {isMac ? <div className="flex flex-row gap-2 items-center" style={{ WebkitAppRegion: 'no-drag' }}>
                 <div className="w-2 h-2 rounded-full bg-red-500"></div>

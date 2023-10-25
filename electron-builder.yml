@@ -1,5 +1,5 @@
-appId: com.amethyst.app
-productName: Amethyst
+appId: com.crystalsql.app
+productName: CrystalSQL
 copyright: Copyright (c) 2023
 directories:
   output: dist

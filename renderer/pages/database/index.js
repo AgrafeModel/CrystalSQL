@@ -1,7 +1,7 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 import TestQuery from '../../components/test/TestQuery'
-import DatabaseLayout from '../../components/Layout/databaseLayout'
+import DatabaseLayout from '../../components/Layout/databaseNav/databaseLayout'
 
 export default function HomePage() {
 
@@ -10,7 +10,7 @@ export default function HomePage() {
         <>
             <Layout>
                 <DatabaseLayout >
-                    <TestQuery />
+                    
                 </DatabaseLayout>
             </Layout>
         </>

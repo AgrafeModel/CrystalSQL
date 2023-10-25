@@ -67,7 +67,7 @@ export default function TestQuery() {
 
     return (
         <>
-            <div className="flex flex-col gap-4 p-4">
+            <div className="flex flex-col gap-4 p-4 text-secondary">
                 <QueryInput makeQuery={makeQuery} queryLoading={queryLoading} />
 
                 {queryError &&
@@ -94,7 +94,7 @@ export default function TestQuery() {
                             {Object.keys(queryResult[0]).map((key, index) => {
                                 //size of column is equal to the size of the item in each column
                                 return (
-                                    <TableColumn key={index} width={100} maxWidth={100}>
+                                    <TableColumn key={index} width={100} maxWidth={100} className="text-secondary">
                                         {key}
                                     </TableColumn>
                                 )
@@ -111,9 +111,9 @@ export default function TestQuery() {
                                                         title={value.toString()}>
                                                         <div className="flex flex-row gap-2 max-w-xs max-h-10">
                                                             {value ? (
-                                                                <p className=" text-sm">{value.toString()}</p>
+                                                                <p className="text-secondary text-sm">{value.toString()}</p>
                                                             ) : (
-                                                                <p className=" text-sm italic">NULL</p>
+                                                                <p className="text-secondary text-sm italic text-opacity-50">NULL</p>
                                                             )}
                                                         </div>
                                                     </TableCell>
@@ -125,9 +125,9 @@ export default function TestQuery() {
                                                         title={value}>
                                                         <div className="flex flex-row gap-2 max-w-xs max-h-10">
                                                             {value ? (
-                                                                <p className="text-sm">{value}</p>
+                                                                <p className="text-secondary text-sm">{value}</p>
                                                             ) : (
-                                                                <p className="text-sm italic">NULL</p>
+                                                                <p className="text-secondary text-sm italic text-opacity-50">NULL</p>
                                                             )}
                                                         </div>
                                                     </TableCell>

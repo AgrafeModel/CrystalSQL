@@ -139,5 +139,6 @@ module.exports = {
     testConnection,
     connectToDatabase,
     disconnectFromDatabase,
-    makeQuery
+    makeQuery,
+    databaseInstance
 };

@@ -66,7 +66,7 @@ function SearchBar({ connectionList, setConnectionList,setFilter }) {
     
     return (
         <>
-            <div className="flex justify-center flex-row">
+            <div className="flex justify-center flex-row w-full">
                 <Input placeholder="Search" width="100%" color='primary' variant='faded' radius='none' onChange={(e) => setFilter(e.target.value)} />
                 <EditConnectionModal connectionList={connectionList} setConnectionList={setConnectionList} />
                 <SettingsModal connectionList={connectionList} setConnectionList={setConnectionList} />
@@ -166,7 +166,7 @@ function LandingPage() {
         , []);
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-full">
             <SearchBar connectionList={connections} setConnectionList={setConnections} initialConnectionList={connections} setFilter={setFilter} />
             <ConnectionList connections={connections} setConnectionList={setConnections} connectionList={connections} filter={filter} />
 

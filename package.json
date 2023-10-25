@@ -1,7 +1,7 @@
 {
   "private": true,
-  "name": "amethyste",
-  "description": "Amethyste is a free and open-source SQL client with a focus on user experience.",
+  "name": "CrystalSQL",
+  "description": "CrystalSQL is a free and open-source SQL client with a focus on user experience.",
   "version": "1.0.0",
   "author": "Deguisne Corentin",
   "main": "app/background.js",
