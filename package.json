@@ -34,7 +34,7 @@
     "pg-hstore": "^2.3.4",
     "react-ace": "^10.1.0",
     "sequelize": "^6.33.0",
-    "sqlite3": "^5.0.3",
+    "sqlite3": "^5.1.5",
     "tedious": "^16.5.0"
   },
   "devDependencies": {
