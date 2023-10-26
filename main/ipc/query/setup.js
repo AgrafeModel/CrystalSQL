@@ -18,7 +18,7 @@ function setupQueryEvent() {
             console.log(response)
             //check if  it's an error
             if (response.success) {
-               event.reply('query-made', { success: true, data: response.data })
+               event.reply('query-made', { success: true, data: response.data, queryId: arg.id })
             } else {
                 event.reply('query-made', { success: false, message: `Query failed: ${response.message}` })
             }
@@ -38,11 +38,11 @@ function setupQueryEvent() {
             //save query
             const queries = queryStore.get('queries')
             queries[databaseInstance.connection.id] = queries[databaseInstance.connection.id] || []
-            //add id
-            arg.id = queries[databaseInstance.connection.id].length + 1
+            //get a unique id for the query
+            arg.id = Date.now()
             queries[databaseInstance.connection.id].push(arg)
             queryStore.set('queries', queries)
-            event.reply('query-saved', { success: true, message: 'Query saved' })
+            event.reply('query-saved', { success: true, message: 'Query saved', data: queries[databaseInstance.connection.id] })
         }
     })
 
@@ -52,6 +52,7 @@ function setupQueryEvent() {
         if (databaseInstance.connection === null) {
             event.reply('queries', { success: false, message: 'No connection selected' })
         } else {
+            console.log("Getting queries for connection for:", databaseInstance.connection.id)
             const queries = queryStore.get('queries')
             const connectionQueries = queries[databaseInstance.connection.id] || []
             event.reply('queries', { success: true, data: connectionQueries })
@@ -81,7 +82,8 @@ function setupQueryEvent() {
             const newQueries = queries[databaseInstance.connection.id].filter(query => query.id !== arg)
             queries[databaseInstance.connection.id] = newQueries
             queryStore.set('queries', queries)
-            event.reply('query-deleted', { success: true, message: 'Query deleted' })
+            //return the id of the deleted query
+            event.reply('query-deleted', { success: true, message: 'Query deleted', data: { id: arg } })
         }
     })
 
@@ -98,7 +100,7 @@ function setupQueryEvent() {
             query.name = arg.name
             query.query = arg.query
             queryStore.set('queries', queries)
-            event.reply('query-updated', { success: true, message: 'Query updated' })
+            event.reply('query-updated', { success: true, message: 'Query updated', data: query })
         }
     })
 

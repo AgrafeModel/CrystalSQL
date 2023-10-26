@@ -11,7 +11,7 @@ const { connectionStore } = require('../../helpers/stores');
 function setupConnectionEvent() {
     //save connection locally
     ipcMain.on('save-connection', (event, arg) => {
-        console.log(arg);
+
         //save connection
         const connections = connectionStore.get('connections')
         //add id
@@ -24,7 +24,6 @@ function setupConnectionEvent() {
     ipcMain.on('get-connections', (event, arg) => {
 
         const connections = connectionStore.get('connections')
-        console.log(connections)
         event.reply('connections', connections)
     })
 
@@ -37,9 +36,7 @@ function setupConnectionEvent() {
     //delete connection by id
     ipcMain.on('delete-connection', (event, arg) => {
         const connections = connectionStore.get('connections')
-        console.log(connections)
         const newConnections = connections.filter(connection => connection.id !== arg)
-        console.log(newConnections)
         connectionStore.set('connections', newConnections)
         event.reply('connection-deleted', 'Connection deleted')
     })
@@ -47,9 +44,7 @@ function setupConnectionEvent() {
     //update connection by id
     ipcMain.on('update-connection', (event, arg) => {
         const connections = connectionStore.get('connections')
-        console.log(connections)
         const newConnections = connections.filter(connection => connection.id !== arg.id)
-        console.log(newConnections)
         newConnections.push(arg)
         connectionStore.set('connections', newConnections)
         event.reply('connection-updated', { success: true, message: 'Connection updated', data: arg })
@@ -57,7 +52,6 @@ function setupConnectionEvent() {
 
     //test connection
     ipcMain.on('test-connection', (event, arg) => {
-        console.log(arg)
         const sequelize = createDatabaseConnection(arg.type, arg)
         //test connection
         testConnection(sequelize).then(response => {
@@ -75,11 +69,8 @@ function setupConnectionEvent() {
     ipcMain.on('connect-to-database', (event, arg) => {
         const connections = connectionStore.get('connections')
         const connection = connections.find(connection => connection.id === arg)
-        console.log(connection)
         //connect to database (the function a sequelize instance or an error object)
         connectToDatabase(connection).then(response => {
-            //check if success
-            console.log(response)
             if(response.success){
                 event.reply('database-connected', { success: true, message: 'Connection success', data: connection })
             }

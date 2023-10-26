@@ -34,8 +34,8 @@ import { purpleDarkTheme } from "./AceThemes";
 
 
 
-const Editor = ({onChange, value}) => {
-//theme is based on the theme of the app
+const Editor = ({ onChange, value }) => {
+  //theme is based on the theme of the app
   const { theme } = useTheme();
   const [isLoaded, setIsLoaded] = React.useState(false)
   const [editorTheme, setEditorTheme] = React.useState('monokai')
@@ -44,65 +44,66 @@ const Editor = ({onChange, value}) => {
     console.log(theme)
     //Start with dark
     if (theme.startsWith('dark')) {
-        //get the rest of the theme name
-        const themeName = theme.substring(4)
-        switch (themeName) {
-            case 'blue':
-                
-                break;
-            case 'green':
-                setEditorTheme('tomorrow_night_bright')
-                break;
-            case 'orange':
-                setEditorTheme('tomorrow_night_eighties')
-                break;
-            case 'grey':
-                setEditorTheme('twilight')
-                break;
-            case 'pink':
-                setEditorTheme('solarized_dark')
-                break;
-            default://custom theme (purple dark)
-                setEditorTheme('purple-dark')
-                break;
-        }
+      //get the rest of the theme name
+      const themeName = theme.substring(4)
+      switch (themeName) {
+        case 'blue':
+          setEditorTheme('tomorrow_night_blue')
+          break;
+        case 'green':
+          setEditorTheme('tomorrow_night')
+          break;
+        case 'orange':
+          setEditorTheme('tomorrow_night_eighties')
+          break;
+        case 'grey':
+          setEditorTheme('twilight')
+          break;
+        case 'pink':
+          setEditorTheme('pastel_on_dark')
+          break;
+        default://custom theme (purple dark)
+          setEditorTheme('purple-dark')
+          break;
+      }
     } else {
-        setEditorTheme('github')
+      setEditorTheme('github')
     }
     setIsLoaded(true)
   }
-  
+
   //memoize the themeManager function to avoid re-rendering
   const memoizedEditorTheme = React.useMemo(() => {
     return themeManager(theme)
   }
-  , [theme]);
-    
+    , [theme]);
+
   return (
     <>
 
-      <AceEditor
-        mode="mysql"
-        theme={editorTheme}
-        fontSize={14}
-        onChange={onChange}
-        value={value}
-        name="codeEditor"
-        editorProps={{ $blockScrolling: true }}
-        setOptions={{
-          enableBasicAutocompletion: true,
-          enableLiveAutocompletion: true,
-          enableSnippets: true,
-        }}
-        width="100%"
-        style={{minHeight: '65vh'}}
-        
-      />
-    
+          <AceEditor
+            mode="mysql"
+            theme={editorTheme}
+            fontSize={14}
+            onChange={onChange}
+            value={value}
+            name="codeEditor"
+            editorProps={{ $blockScrolling: true }}
+            setOptions={{
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              enableSnippets: true,
+            }}
+            width="100%"
+            style={{ minHeight: '65vh' }}
+
+          />
+
+
 
 
     </>
-)
+  )
 };
 
 export default Editor;

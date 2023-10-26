@@ -52,6 +52,7 @@ function Sidebar() {
 
 
             </div>
+            <Divider orientation="vertical" />
         </aside>
     )
 }

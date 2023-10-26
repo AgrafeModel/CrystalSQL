@@ -3,24 +3,13 @@ import { Accordion, AccordionItem, Button, Divider } from "@nextui-org/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import Link from "next/link"
+import { useQueryContext } from "../../../../utils/QueryManager"
+import { useNavigation } from "../../../../utils/NavigationContext"
 
 export default function QueryNavPane({ connectionInfo }) {
-    const [queries, setQueries] = React.useState([])
 
-    React.useEffect(() => {
-        //get queries from main process
-        window.ipc.send('get-queries')
-        window.ipc.on('queries', (event, arg) => {
-            if (event.success) {
-                setQueries(event.data)
-            } else {
-                console.log(event.message)
-            }
-        })
-    }, [])
-
-
-
+    const { queryList } = useQueryContext()
+    const { queryCurrentSelected, setQueryCurrentSelected } = useNavigation();
 
     return (
         <div className="flex flex-col w-full items-start justify-start px-4">
@@ -28,32 +17,37 @@ export default function QueryNavPane({ connectionInfo }) {
                 <p className="text-primary text-lg">Saved Queries</p>
                 <Button
                     color="primary"
-                    auto
                     isIconOnly
                     variant="light"
                     radius="full"
                     size="sm"
                     as={Link}
-                    href="/database/query/new"
+                    href="/database/query/edit"
+                    onClick={() => setQueryCurrentSelected(null)}
+                    
                 >
                     <FontAwesomeIcon icon={faPlus} />
                 </Button>
             </div>
             <div className="flex flex-col w-full items-start justify-start">
-                {queries.map(query => (
+                {queryList.map((query, index) => (
                     <Button
-                        key={query.id}
+                        key={index}
                         color="primary"
-                        auto
-                        variant="light"
-                        radius="none"
-                        size="sm"
-                        className="w-full text-left"
+                        variant={queryCurrentSelected?.id === query.id ? 'flat' : 'light'}
+                        size="small"
+                        className="w-full text-left justify-start"
+                        as={Link}
+                        href={`/database/query/edit?queryId=${query.id}`}
+                        onClick={() => setQueryCurrentSelected(query)}
+                     
                     >
                         {query.name}
                     </Button>
                 ))}
-                {queries.length === 0 && <p className="text-primary text-opacity-50">No queries saved</p>}
+
+
+               
             </div>
         </div>
     )

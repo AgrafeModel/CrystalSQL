@@ -7,7 +7,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import {NavigationProvider} from "../utils/NavigationContext";
 config.autoAddCss = false;
-
+import {QueryContextProvider} from "../utils/QueryManager";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -31,7 +31,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         ]}
       >
         <NavigationProvider>
-          <Component {...pageProps} />
+          <QueryContextProvider>
+            <Component {...pageProps} />
+          </QueryContextProvider>
           </NavigationProvider>
       </NextThemesProvider>
     </NextUIProvider>

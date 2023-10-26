@@ -33,7 +33,7 @@ app.setAppUserModelId('com.amethyst.app');
     
     width: 1000,
     height: 600,
-    show: false,
+    show: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -44,33 +44,21 @@ app.setAppUserModelId('com.amethyst.app');
     
   });
 
-  var splash = createWindow("splash", {
-    width: 500, 
-    height: 300, 
-    transparent: true, 
-    frame: false, 
-    alwaysOnTop: true,
-    icon: path.join(__dirname, "../resources/icon.ico"), //don't show top bar icon
-  });
 
 
 
 
-  //when main window is ready to show, destroy splash window and show the main window
-  mainWindow.once('ready-to-show', () => {
-    splash.destroy();
-    mainWindow.show();
-  });
+
+
 
 
 
   if (isProd) {
 
-    await splash.loadURL("app://./splash.html");
+
     await mainWindow.loadURL("app://./");
   } else {
     const port = process.argv[2];
-    await splash.loadURL(`http://localhost:${port}/splash`);
     await mainWindow.loadURL(`http://localhost:${port}/`);
     mainWindow.webContents.openDevTools();
 
