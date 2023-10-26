@@ -31,82 +31,84 @@ export default function SQLResultTable({ queryResult, queryError }) {
                 </div>
             }
             {queryResult && queryResult.length > 0 ?
-            <>
-                <Table
-                    aria-label="Example table with client side pagination"
+                <>
+                    <Table
+                        aria-label="Example table with client side pagination"
 
-                    classNames={{
-                        wrapper: "max-h-[50vh] overflow-y-auto w-full",
-                        table: "min-w-[600px]",
-                        header: "bg-primary-100 dark:bg-primary-700",
-                        body: "bg-primary-50 dark:bg-primary-800",
-                        row: "bg-primary-50 dark:bg-primary-800",
+                        classNames={{
+                            wrapper: "max-h-[65vh] overflow-y-auto w-full min-h-[65vh]",
+                            table: "min-w-[600px]",
+                            header: "bg-primary-100 dark:bg-primary-700",
+                            body: "bg-primary-50 dark:bg-primary-800",
+                            row: "bg-primary-50 dark:bg-primary-800",
 
-                    }}
-                >
-                    <TableHeader>
-                        {Object.keys(queryResult[0]).map((key, index) => {
-                            //size of column is equal to the size of the item in each column
-                            return (
-                                <TableColumn key={index} width={100} maxWidth={100} className="text-secondary font-bold">
-                                    {key}
-                                </TableColumn>
-                            )
-                        })}
-                    </TableHeader>
-                    <TableBody className="gap-0 max-h-96 overflow-y-auto">
-                        {memoizedData.map((row, index) => {
-                            return (
-                                <TableRow key={index} className="max-w-xs truncate">
-                                    {Object.values(row).map((value, index) => {
-                                        try {
-                                            return (
-                                                <TableCell key={index} className="truncate max-w-xs max-h-10 border-r border-l border-gray-200 dark:border-primary-200 dark:border-opacity-20"
-                                                    title={value.toString()}>
-                                                    <div className="flex flex-row gap-2 max-w-xs max-h-10">
-                                                        {value ? (
-                                                            <p className="text-secondary text-sm">{value.toString()}</p>
-                                                        ) : (
-                                                            <p className="text-secondary text-sm italic text-opacity-50">NULL</p>
-                                                        )}
-                                                    </div>
-                                                </TableCell>
-                                            )
-                                        }
-                                        catch (e) {
-                                            return (
-                                                <TableCell key={index} className="truncate max-w-xs max-h-10"
-                                                    title={value}>
-                                                    <div className="flex flex-row gap-2 max-w-xs max-h-10">
-                                                        {value ? (
-                                                            <p className="text-secondary text-sm">{value}</p>
-                                                        ) : (
-                                                            <p className="text-secondary text-sm italic text-opacity-50">NULL</p>
-                                                        )}
-                                                    </div>
-                                                </TableCell>
-                                            )
-                                        }
-                                    })}
-                                </TableRow>
-                            )
-                        })}
+                        }}
+                    >
+                        <TableHeader>
+                            {Object.keys(queryResult[0]).map((key, index) => {
+                                //size of column is equal to the size of the item in each column
+                                return (
+                                    <TableColumn key={index} width={100} maxWidth={100} className="text-secondary font-bold">
+                                        {key}
+                                    </TableColumn>
+                                )
+                            })}
+                        </TableHeader>
+                        <TableBody className="gap-0 max-h-96 overflow-y-auto">
+                            {memoizedData.map((row, index) => {
+                                return (
+                                    <TableRow key={index} className="max-w-xs truncate">
+                                        {Object.values(row).map((value, index) => {
+                                            try {
+                                                return (
+                                                    <TableCell key={index} className="truncate max-w-xs max-h-10 border-r border-l border-gray-200 dark:border-primary-200 dark:border-opacity-20 py-0"
+                                                        title={value.toString()}>
+                                                        <div className="flex flex-row gap-2 max-w-xs">
+                                                            {value ? (
+                                                                <p className="text-secondary text-sm">{value.toString()}</p>
+                                                            ) : (
+                                                                <p className="text-secondary text-sm italic text-opacity-50">NULL</p>
+                                                            )}
+                                                        </div>
+                                                    </TableCell>
+                                                )
+                                            }
+                                            catch (e) {
+                                                return (
+                                                    <TableCell key={index} className="truncate max-w-xs max-h-10"
+                                                        title={value}>
+                                                        <div className="flex flex-row gap-2 max-w-xs max-h-10">
+                                                            {value ? (
+                                                                <p className="text-secondary text-sm">{value}</p>
+                                                            ) : (
+                                                                <p className="text-secondary text-sm italic text-opacity-50">NULL</p>
+                                                            )}
+                                                        </div>
+                                                    </TableCell>
+                                                )
+                                            }
+                                        })}
+                                    </TableRow>
+                                )
+                            })}
 
 
 
-                    </TableBody>
-                </Table>
-                <div className="flex w-full justify-center">
-                            <Pagination
-                                isCompact
-                                showControls
-                                showShadow
-                                color="secondary"
-                                page={page}
-                                total={pages}
-                                onChange={(page) => setPage(page)}
-                            />
-                        </div>
+                        </TableBody>
+                    </Table>
+                    <div className="flex w-full justify-center">
+                        {pages > 1 &&
+                        <Pagination
+                            isCompact
+                            showControls
+                            showShadow
+                            color="secondary"
+                            page={page}
+                            total={pages}
+                            onChange={(page) => setPage(page)}
+                        />
+                        }
+                    </div>
                 </>
                 : null}
         </div>
