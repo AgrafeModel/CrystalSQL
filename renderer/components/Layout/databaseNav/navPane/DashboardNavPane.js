@@ -42,7 +42,6 @@ export default function DashboardNavPane({ connectionInfo }) {
                             onClick={() => updateNavPaneCurrentSelected('dashboard',dashboard.id)}
                             size="small"
                             className="w-full"
-                            shadow
                             as={Link}
                             href={`/database/dashboard?dashboardId=${dashboard.id}`}
                         >

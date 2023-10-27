@@ -20,6 +20,7 @@ const { dashboardStore,connectionStore } = require('../../helpers/stores');
                 content: "Customize this dashboard",
                 width: 5,
                 height: 1,
+                dashboardId: null
             },
         ],
     }
@@ -39,6 +40,8 @@ function setupDashboardEvents(){
             //get a unique id for the dashboard
             arg.id = Date.now()
             dashboards[databaseInstance.connection.id].push(arg)
+            //update dashboardId in widgets
+            arg.widgets = arg.widgets.map(widget => { widget.dashboardId = arg.id; return widget })
             dashboardStore.set('dashboards', dashboards)
             event.reply('dashboard-created', { success: true, message: 'Dashboard created', data: dashboards[databaseInstance.connection.id] })
         }
@@ -84,12 +87,16 @@ function setupDashboardEvents(){
         } else {
             //update dashboard
             const dashboards = dashboardStore.get('dashboards')
-            dashboards[databaseInstance.connection.id] = dashboards[databaseInstance.connection.id] || []
-            //get a unique id for the dashboard
-            arg.id = Date.now()
-            dashboards[databaseInstance.connection.id].push(arg)
+            const connectionDashboards = dashboards[databaseInstance.connection.id] || []
+            const newDashboards = connectionDashboards.map(dashboard => {
+                if (dashboard.id === arg.id) {
+                    return arg
+                }
+                return dashboard
+            })
+            dashboards[databaseInstance.connection.id] = newDashboards
             dashboardStore.set('dashboards', dashboards)
-            event.reply('dashboard-updated', { success: true, message: 'Dashboard updated', data: dashboards[databaseInstance.connection.id] })
+            event.reply('dashboard-updated', { success: true, message: 'Dashboard updated', data: arg })
         }
     })
 

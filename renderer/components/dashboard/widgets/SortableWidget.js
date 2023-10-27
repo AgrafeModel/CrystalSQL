@@ -1,8 +1,15 @@
 import { useSortable } from '@dnd-kit/sortable';
-import TextWidget  from './TextWidget';
+import {TextWidget}  from './TextWidget';
+import { useDashboardContext } from '../../../utils/DashboardManager';
 
 
-export function SortableWidget({ id, widget, disabled }) {
+export function SortableWidget({ id, widget }) {
+
+    const {canItemBeDragged,isEditing} = useDashboardContext();
+
+    //if both are true, the widget can be dragged
+    const disabled = !canItemBeDragged || !isEditing;
+   
     const {
         isDragging,
         attributes,

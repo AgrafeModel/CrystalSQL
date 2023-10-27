@@ -5,6 +5,8 @@ const DasboardContext = createContext('dashboard');
 
 export function DashboardContextProvider({ children }) {
     const [dashboardList,setDashboardList] = useState([]);
+    const [isEditing,setIsEditing] = useState(false);
+    const [canItemBeDragged,setCanItemBeDragged] = useState(true);
 
     //on dashboardSaved
     useEffect(() => {
@@ -53,8 +55,50 @@ export function DashboardContextProvider({ children }) {
     }
     ,[])
 
+
+    const updateWidget = (widget) => {
+        setDashboardList(dashboardList.map(dashboard => {
+            if(dashboard.id === widget.dashboardId){
+                dashboard.widgets = dashboard.widgets.map(w => {
+                    if(w.id === widget.id){
+                        return widget
+                    }
+                    return w
+                })
+            }
+            return dashboard
+        }))
+    }
+
+    const addWidget = (widget) => {
+        setDashboardList(dashboardList.map(dashboard => {
+            if(dashboard.id === widget.dashboardId){
+                //get a new id for the widget
+                widget.id = dashboard.widgets.length + 1
+                dashboard.widgets = [...dashboard.widgets,widget]
+                console.log(dashboard.widgets)
+            }
+            return dashboard
+        }))
+        
+        //save dashboard
+        saveDashboard(widget.dashboardId);
+    }
+
+    const deleteWidget = (widget) => {
+        setDashboardList(dashboardList.map(dashboard => {
+            if(dashboard.id === widget.dashboardId){
+                dashboard.widgets = dashboard.widgets.filter(w => w.id !== widget.id)
+            }
+            return dashboard
+        }))
+    }
+
+
+
+
     return(
-        <DasboardContext.Provider value={{dashboardList,setDashboardList}}>
+        <DasboardContext.Provider value={{dashboardList,setDashboardList,isEditing,setIsEditing,canItemBeDragged,setCanItemBeDragged,updateWidget,addWidget,deleteWidget}}>
             {children}
         </DasboardContext.Provider>
     )
@@ -106,6 +150,7 @@ export function defaultDashboard(){
                 content: "Customize this dashboard",
                 width: 5,
                 height: 1,
+                dashboardId: null
             },
         ],
     }
