@@ -9,7 +9,7 @@ import { useNavigation } from "../../../../utils/NavigationContext"
 export default function QueryNavPane({ connectionInfo }) {
 
     const { queryList } = useQueryContext()
-    const { queryCurrentSelected, setQueryCurrentSelected } = useNavigation();
+    const { navPaneCurrentSelected,updateNavPaneCurrentSelected } = useNavigation();
 
     return (
         <div className="flex flex-col w-full items-start justify-start px-4">
@@ -23,7 +23,7 @@ export default function QueryNavPane({ connectionInfo }) {
                     size="sm"
                     as={Link}
                     href="/database/query/edit"
-                    onClick={() => setQueryCurrentSelected(null)}
+                    onClick={() => updateNavPaneCurrentSelected('query',null)}
                     
                 >
                     <FontAwesomeIcon icon={faPlus} />
@@ -34,12 +34,12 @@ export default function QueryNavPane({ connectionInfo }) {
                     <Button
                         key={index}
                         color="primary"
-                        variant={queryCurrentSelected?.id === query.id ? 'flat' : 'light'}
+                        variant={navPaneCurrentSelected.query && navPaneCurrentSelected.query.id === query.id ? "flat" : "light"}
                         size="small"
                         className="w-full text-left justify-start"
                         as={Link}
                         href={`/database/query/edit?queryId=${query.id}`}
-                        onClick={() => setQueryCurrentSelected(query)}
+                        onClick={() => updateNavPaneCurrentSelected('query',query)}
                      
                     >
                         {query.name}

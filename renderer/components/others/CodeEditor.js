@@ -95,7 +95,7 @@ const Editor = ({ onChange, value }) => {
               enableSnippets: true,
             }}
             width="100%"
-            style={{ minHeight: '65vh' }}
+            style={{ minHeight: '65vh', height: '100%' }}
 
           />
 

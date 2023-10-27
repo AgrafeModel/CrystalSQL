@@ -2,7 +2,6 @@ import React from "react";
 import {
     Input,
     Button,
-    Textarea,
     Divider,
     Popover,
     PopoverTrigger,
@@ -16,7 +15,6 @@ import {
     saveQuery,
     updateQuery,
     deleteQuery,
-    useQueryContext,
 } from "../../utils/QueryManager";
 import Link from "next/link";
 const Ace = dynamic(() => import("../others/CodeEditor"), { ssr: false });
@@ -61,6 +59,7 @@ export default function NewQuery({ defaultQuery }) {
             setQuery("");
             setQueryName("");
             setQueryError(null);
+            setQueryResult(null);
         }
     }, [defaultQuery]);
 
@@ -136,13 +135,14 @@ export default function NewQuery({ defaultQuery }) {
             </div>
             <Divider />
             <div className="grid grid-cols-2 h-full w-full items-start">
-                <div className="flex flex-col gap-2 h-full w-full">
+                <div className="flex flex-col h-full w-full shadow-md">
                     <Ace onChange={(e) => setQuery(e)} value={query} />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-row">
                     <SQLResultTable queryResult={queryResult} queryError={queryError} />
                 </div>
             </div>
+            <Divider />
             <div className="flex flex-row gap-2 w-full h-full justify-between items-center bg-primary-50 p-2">
                 <Popover isOpen={deletePopopen} onOpenChange={(e) => setDeletePopopen(e)}>
                     <PopoverTrigger>

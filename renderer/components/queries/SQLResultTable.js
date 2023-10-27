@@ -65,7 +65,7 @@ export default function SQLResultTable({ queryResult, queryError }) {
                             {Object.keys(queryResult[0]).map((key, index) => {
                                 //size of column is equal to the size of the item in each column
                                 return (
-                                    <TableColumn key={index} width={100} maxWidth={100} className="text-secondary font-bold ">
+                                    <TableColumn key={index} width={100} maxWidth={100} className="text-primary font-bold ">
                                         {key}
                                     </TableColumn>
                                 )
@@ -82,9 +82,9 @@ export default function SQLResultTable({ queryResult, queryError }) {
                                                         title={value.toString()}>
                                                         <div className="flex flex-row gap-2 max-w-xs">
                                                             {value ? (
-                                                                <p className="text-secondary text-sm">{value.toString()}</p>
+                                                                <p className="text-sm">{value.toString()}</p>
                                                             ) : (
-                                                                <p className="text-secondary text-sm italic text-opacity-50">NULL</p>
+                                                                <p className="text-sm italic text-opacity-50">NULL</p>
                                                             )}
                                                         </div>
                                                     </TableCell>
@@ -96,9 +96,9 @@ export default function SQLResultTable({ queryResult, queryError }) {
                                                         title={value}>
                                                         <div className="flex flex-row gap-2 max-w-xs max-h-10">
                                                             {value ? (
-                                                                <p className="text-secondary text-sm">{value}</p>
+                                                                <p className="text-sm">{value}</p>
                                                             ) : (
-                                                                <p className="text-secondary text-sm italic text-opacity-50">NULL</p>
+                                                                <p className="text-sm italic text-opacity-50">NULL</p>
                                                             )}
                                                         </div>
                                                     </TableCell>
@@ -119,7 +119,7 @@ export default function SQLResultTable({ queryResult, queryError }) {
                                 isCompact
                                 showControls
                                 showShadow
-                                color="secondary"
+                                color="primary"
                                 page={page}
                                 total={pages}
                                 onChange={(page) => setPage(page)}
