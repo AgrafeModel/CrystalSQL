@@ -4,17 +4,26 @@ import DatabaseLayout from '../../../components/Layout/databaseNav/databaseLayou
 import Link from "next/link"
 import { useRouter } from 'next/router'
 import MainDashboardFrame from '../../../components/dashboard/MainDashboardFrame'
-
+import { useDashboardContext } from '../../../utils/DashboardManager'
 
 export default function DashboardPage() {
     const router = useRouter();
     const {dashboardId} = router.query;
+    const {dashboardList} = useDashboardContext();
+    const [dashboard,setDashboard] = React.useState(null);
+
+    React.useEffect(() => {
+        if(dashboardId){
+            const dashboard = dashboardList.find(dashboard => dashboard.id === parseInt(dashboardId))
+            setDashboard(dashboard)
+        }
+    },[dashboardId,dashboardList])
 
     return (
         <>
             <Layout>
                 <DatabaseLayout >
-                    <MainDashboardFrame dashboardId={dashboardId}/>
+                    {dashboard && <MainDashboardFrame dashboard={dashboard} setDashboard={setDashboard}/> }
                 </DatabaseLayout>
             </Layout>
         </>

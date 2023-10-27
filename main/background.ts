@@ -7,7 +7,7 @@ import setupPingEvent from "./ipc/ping";
 import setupConnectionEvent from "./ipc/connections/setup";
 import setupAppEvents from "./ipc/app";
 import setupQueryEvent from "./ipc/query/setup";
-
+import setupDashboardEvents from "./ipc/dashboard/setup";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -43,16 +43,6 @@ app.setAppUserModelId('com.amethyst.app');
    
     
   });
-
-
-
-
-
-
-
-
-
-
   if (isProd) {
 
 
@@ -74,6 +64,7 @@ setupAppEvents();
 setupPingEvent();
 setupQueryEvent();
 setupConnectionEvent();
+setupDashboardEvents();
 
 
 

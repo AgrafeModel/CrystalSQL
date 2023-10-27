@@ -22,13 +22,12 @@ But why ?
 -   [x] Execute SQL queries
 -   [x] Save connections
 -   [x] Multiple themes
+-   [x] Save queries
 
 ### Planned 
 
-
 -   [ ] Multiple tabs
 -   [ ] Multiple connections
--   [ ] Save queries
 -   [ ] Export results
 -   [ ] Import connections
 -   [ ] Import queries

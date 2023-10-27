@@ -15,57 +15,17 @@ import {
     SortableContext,
     rectSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Button } from "@nextui-org/react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit,faCheck} from "@fortawesome/free-solid-svg-icons";
-import {SortableWidget} from "./widgets/SortableWidget";
+import { Button, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { SortableWidget } from "./widgets/SortableWidget";
+import { deleteDashboard } from "../../utils/DashboardManager";
 
 
-export default function MainDashboardFrame({ dashboardId }) {
-    const [dashboard, setDashboard] = React.useState(null); //the dashboard is an array of widgets
+export default function MainDashboardFrame({ dashboard, setDashboard }) {
     const sensors = useSensors(useSensor(MouseSensor));
     const [activeId, setActiveId] = React.useState(null);
-    const [isEditing, setIsEditing] = React.useState(false); //if the user is editing the dashboard (ordering widgets...)
-
-
-    const testDashboard = {
-        id: 1,
-        title: "Test Dashboard",
-        description: "This is a test dashboard",
-        widgets: [
-            {
-                id: 1,
-                title: "Widget 1",
-                description: "This is a test widget",
-                type: "text",
-                content: "This is a test widget",
-                width: 1,
-                height: 5,
-            },
-            {
-                id: 2,
-                title: "Widget 2",
-                description: "This is a test widget",
-                type: "text",
-                content: "This is a test widget",
-                width: 1,
-                height: 1,
-            },
-            {
-                id: 3,
-                title: "Widget 3",
-                description: "This is a test widget",
-                type: "text",
-                content: "This is a test widget",
-                width: 1,
-                height: 1,
-            },
-        ],
-    };
-
-    React.useEffect(() => {
-        setDashboard(testDashboard);
-    }, []);
+    const [isEditing, setIsEditing] = React.useState(false);
 
     const handleDragStart = React.useCallback((event) => {
         const { active } = event;
@@ -99,6 +59,7 @@ export default function MainDashboardFrame({ dashboardId }) {
         setIsEditing(!isEditing);
     };
 
+
     return (
         <>
             {dashboard ? (
@@ -113,47 +74,81 @@ export default function MainDashboardFrame({ dashboardId }) {
                                 variant={isEditing ? "solid" : "flat"}
                                 color="primary"
                                 onClick={() => toggleEditing()}
-                                isIconOnly 
+                                isIconOnly
                             >
-                                {isEditing ? <FontAwesomeIcon icon={faCheck}/> : <FontAwesomeIcon icon={faEdit}/> }
+                                {isEditing ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faEdit} />}
                             </Button>
                         </div>
                     </div>
-                    <DndContext
-                        sensors={sensors}
-                        collisionDetection={closestCenter}
-                        onDragStart={handleDragStart}
-                        onDragEnd={handleDragEnd}
-                        onDragCancel={handleDragCancel}
-                    >
-                        <SortableContext
-                            items={dashboard.widgets.map((widget) => widget.id)}
-                            strategy={rectSortingStrategy}
+                    <div className="h-full w-full">
+                        <DndContext
+                            sensors={sensors}
+                            collisionDetection={closestCenter}
+                            onDragStart={handleDragStart}
+                            onDragEnd={handleDragEnd}
+                            onDragCancel={handleDragCancel}
                         >
-                            <div
-                                className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4"
+                            <SortableContext
+                                items={dashboard.widgets.map((widget) => widget.id)}
+                                strategy={rectSortingStrategy}
                             >
-                                {dashboard.widgets.map((widget) => (
+                                <div
+                                    className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4"
+                                >
+                                    {dashboard.widgets.map((widget) => (
+                                        <SortableWidget
+                                            key={widget.id}
+                                            id={widget.id}
+                                            widget={widget}
+                                            disabled={!isEditing}
+                                        />
+                                    ))}
+                                </div>
+                            </SortableContext>
+                            <DragOverlay style={{ transformOrigin: "0 0 " }}>
+                                {activeId ? (
                                     <SortableWidget
-                                        key={widget.id}
-                                        id={widget.id}
-                                        widget={widget}
-                                        disabled={!isEditing}
+                                        id={activeId}
+                                        widget={dashboard.widgets.find(
+                                            (widget) => widget.id === activeId
+                                        )}
                                     />
-                                ))}
-                            </div>
-                        </SortableContext>
-                        <DragOverlay style={{ transformOrigin: "0 0 " }}>
-                            {activeId ? (
-                                <SortableWidget
-                                    id={activeId}
-                                    widget={dashboard.widgets.find(
-                                        (widget) => widget.id === activeId
-                                    )}
-                                />
-                            ) : null}
-                        </DragOverlay>
-                    </DndContext>
+                                ) : null}
+                            </DragOverlay>
+                        </DndContext>
+                    </div>
+                    <div className="flex flex-row justify-end items-center mt-4">
+                        <Popover
+                            placement="bottom"
+                            trigger="click"
+                        >
+                            <PopoverTrigger>
+                                <Button
+                                    color="primary"
+                                    variant="flat"
+                                >
+                                    Delete
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                <div className="flex flex-col justify-center items-center">
+                                    <p className="text-sm text-gray-500">Are you sure you want to delete this dashboard?</p>
+                                    <div className="flex flex-row justify-center items-center mt-4 gap-2">
+                                        <Button
+                                            color="primary"
+                                            variant="flat"
+                                            onClick={() => deleteDashboard(dashboard.id)}
+                                        >
+                                            Confirm
+                                        </Button>
+                                        
+                                    </div>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+
+
+                    </div>
                 </div>
             ) : (
                 <div className="flex flex-col items-center justify-center h-full">

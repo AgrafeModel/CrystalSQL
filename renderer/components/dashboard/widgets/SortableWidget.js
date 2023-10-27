@@ -14,7 +14,7 @@ export function SortableWidget({ id, widget, disabled }) {
 
     //based on widget width and height, calculate the grid span
     const gridSpan = (width, height) => {
-        return `span ${width} / span ${height}`;
+        return `span ${height} / span ${width}`;
     };
 
     return (

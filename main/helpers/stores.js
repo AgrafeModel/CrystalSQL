@@ -1,6 +1,5 @@
 import Store from 'electron-store';
 
-
 //storage for connections 
 const connectionStore = new Store({
     name: 'connections',
@@ -18,6 +17,11 @@ const queryStore = new Store({
     }
 });
 
+const dashboardStore = new Store({
+    name: 'dashboards',
+    defaults: {
+        dashboards: {}, //object of all dashboards saved for each connection
+    }
+});
 
-
-export { connectionStore, queryStore };
+export { connectionStore, queryStore, dashboardStore };

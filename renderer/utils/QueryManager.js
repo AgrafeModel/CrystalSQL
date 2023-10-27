@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const QueryContext = createContext('navigation');
+const QueryContext = createContext('queries');
 
 
 
@@ -29,8 +29,13 @@ export function QueryContextProvider({ children }) {
         window.ipc.on('query-updated',(event,arg) => {
             if(event.success){
                 //update query from list
-                
-
+                setQueryList(queryList.map(query => {
+                    if(query.id === event.data.id){
+                        return event.data
+                    }
+                    return query
+                }
+                ))
             }
         })
         window.ipc.on('database-connected', (event, arg) => {

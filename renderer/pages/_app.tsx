@@ -5,9 +5,10 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import "../styles/globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import {NavigationProvider} from "../utils/NavigationContext";
 config.autoAddCss = false;
-import {QueryContextProvider} from "../utils/QueryManager";
+import { NavigationProvider } from "../utils/NavigationContext";
+import { QueryContextProvider } from "../utils/QueryManager";
+import { DashboardContextProvider } from "../utils/DashboardManager";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -32,9 +33,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <NavigationProvider>
           <QueryContextProvider>
-            <Component {...pageProps} />
+            <DashboardContextProvider>
+              <Component {...pageProps} />
+            </DashboardContextProvider>
           </QueryContextProvider>
-          </NavigationProvider>
+        </NavigationProvider>
       </NextThemesProvider>
     </NextUIProvider>
   );
