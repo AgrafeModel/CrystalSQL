@@ -147,22 +147,24 @@ export function TextWidgetModal({ widget, onClose, isNew = false }) {
                                                 <Input
                                                     label="Widget Width"
                                                     placeholder="Widget Width"
-                                                    defaultValue={currentWidget.width}
+                                                    defaultValue={currentWidget.width || 1}
                                                     variant="underlined"
                                                     onValueChange={(value) => setCurrentWidget({ ...currentWidget, width: value })}
                                                     color="primary"
                                                     className="w-1/2"
                                                     type='number'
+                                                    min={1}
                                                 />
                                                 <Input
                                                     label="Widget Height"
                                                     placeholder="Widget Height"
-                                                    defaultValue={currentWidget.height}
+                                                    defaultValue={currentWidget.height || 1}
                                                     variant="underlined"
                                                     onValueChange={(value) => setCurrentWidget({ ...currentWidget, height: value })}
                                                     color="primary"
                                                     className="w-1/2"
                                                     type='number'
+                                                    min={1}
                                                 />
                                             </div>
                                         </div>

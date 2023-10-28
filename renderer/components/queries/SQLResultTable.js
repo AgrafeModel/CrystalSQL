@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import { Table, TableBody, TableCell, TableHeader, TableRow, TableColumn, Pagination, getKeyValue } from "@nextui-org/react"
 import { Divider } from "@nextui-org/react"
+import { stringify } from 'querystring';
 
 
 
@@ -17,25 +18,8 @@ export default function SQLResultTable({ queryResult, queryError }) {
     }
         , [page, rowsPerPage, queryResult]);
 
-    const classNames = React.useMemo(
-        () => ({
-            wrapper: ["max-h-[382px]", "max-w-3xl"],
-            //TODO: REMOVE RADIUS FROM HEADER]
-            td: [
-                // changing the rows border radius
-                // first
-                "group-data-[first=true]:first:before:rounded-none",
-                "group-data-[first=true]:last:before:rounded-none",
-                // middle
-                "group-data-[middle=true]:before:rounded-none",
-                // last
-                "group-data-[last=true]:first:before:rounded-none",
-                "group-data-[last=true]:last:before:rounded-none",
-            ],
-        }),
-        [],
-    );
 
+    console.log("memoizedData", memoizedData);
 
     return (
         <div className="flex flex-col w-full">
@@ -50,69 +34,33 @@ export default function SQLResultTable({ queryResult, queryError }) {
             }
             {queryResult && queryResult.length > 0 ?
                 <>
-                    <Table
-                        aria-label="Example table with client side pagination"
-                        radius='none'
-                        shadow='none'
-                        classNames={classNames}
-                        removeWrapper
-                        className=' h-[65vh] overflow-y-auto'
-                        isHeaderSticky
+                    <div class="relative overflow-x-auto shadow-md bg-white dark:bg-primary-800 min-h-max">
+                        <table class="w-full text-xs text-left divide-y divide-gray-200 dark:divide-gray-700 dark:text-gray-400">
+                            <thead class="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                    {Object.keys(queryResult[0]).map((key, index) => (
+                                        <th scope="col" class="px-6 py-3">
+                                            {key}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {memoizedData.map((row, index) => (
+                                    <tr className="border-b border-gray-200 dark:border-gray-700">
+                                        {Object.keys(row).map((key, index) => (
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {JSON.stringify(row[key])}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+
+                            </tbody>
+                        </table>
+                    </div>
 
 
-                    >
-                        <TableHeader>
-                            {Object.keys(queryResult[0]).map((key, index) => {
-                                //size of column is equal to the size of the item in each column
-                                return (
-                                    <TableColumn key={index} width={100} maxWidth={100} className="text-primary font-bold ">
-                                        {key}
-                                    </TableColumn>
-                                )
-                            })}
-                        </TableHeader>
-                        <TableBody className="gap-0 max-h-96 overflow-y-auto ">
-                            {memoizedData.map((row, index) => {
-                                return (
-                                    <TableRow key={index} className="max-w-xs truncate">
-                                        {Object.values(row).map((value, index) => {
-                                            try {
-                                                return (
-                                                    <TableCell key={index} className="truncate max-w-xs max-h-10 border-r border-gray-200 dark:border-primary-200 dark:border-opacity-20 py-0"
-                                                        title={value.toString()}>
-                                                        <div className="flex flex-row gap-2 max-w-xs">
-                                                            {value ? (
-                                                                <p className="text-sm">{value.toString()}</p>
-                                                            ) : (
-                                                                <p className="text-sm italic text-opacity-50">NULL</p>
-                                                            )}
-                                                        </div>
-                                                    </TableCell>
-                                                )
-                                            }
-                                            catch (e) {
-                                                return (
-                                                    <TableCell key={index} className="truncate max-w-xs max-h-10"
-                                                        title={value}>
-                                                        <div className="flex flex-row gap-2 max-w-xs max-h-10">
-                                                            {value ? (
-                                                                <p className="text-sm">{value}</p>
-                                                            ) : (
-                                                                <p className="text-sm italic text-opacity-50">NULL</p>
-                                                            )}
-                                                        </div>
-                                                    </TableCell>
-                                                )
-                                            }
-                                        })}
-                                    </TableRow>
-                                )
-                            })}
-
-
-
-                        </TableBody>
-                    </Table>
                     <div className="flex w-full justify-center">
                         {pages > 1 &&
                             <Pagination

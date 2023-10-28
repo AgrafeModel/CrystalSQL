@@ -124,11 +124,14 @@ export default function MainDashboardFrame({ dashboard, setDashboard }) {
                                     className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4"
                                 >
                                     {dashboard.widgets.map((widget) => (
+                                        <>
+                                        {widget.id &&
                                         <SortableWidget
                                             key={widget.id}
                                             id={widget.id}
                                             widget={widget}
-                                        />
+                                        />}
+                                        </>
                                     ))}
                                 </div>
                             </SortableContext>

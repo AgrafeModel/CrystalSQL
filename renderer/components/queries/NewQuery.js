@@ -111,6 +111,27 @@ export default function NewQuery({ defaultQuery }) {
                     variant="faded"
                     color="primary"
                 />
+                <Popover isOpen={deletePopopen} onOpenChange={(e) => setDeletePopopen(e)}>
+                    <PopoverTrigger>
+                        <Button auto size="small" color="primary" variant="flat">
+                            Delete Query
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <div className="flex flex-col gap-2 p-2">
+                            <Button
+                                onClick={() => DeleteQueryHandle()}
+                                size="small"
+                                color="primary"
+                                variant="flat"
+                                as={Link}
+                                href="/database/query/edit"
+                            >
+                                Confirm
+                            </Button>
+                        </div>
+                    </PopoverContent>
+                </Popover>
                 <Button
                     onClick={() => makeQuery(query)}
                     loading={queryLoading}
@@ -138,33 +159,9 @@ export default function NewQuery({ defaultQuery }) {
                 <div className="flex flex-col h-full w-full shadow-md">
                     <Ace onChange={(e) => setQuery(e)} value={query} />
                 </div>
-                <div className="flex flex-row">
+                <div className="flex flex-row w-full h-full">
                     <SQLResultTable queryResult={queryResult} queryError={queryError} />
                 </div>
-            </div>
-            <Divider />
-            <div className="flex flex-row gap-2 w-full h-full justify-between items-center bg-primary-50 p-2">
-                <Popover isOpen={deletePopopen} onOpenChange={(e) => setDeletePopopen(e)}>
-                    <PopoverTrigger>
-                        <Button auto size="small" color="primary" variant="flat">
-                            Delete Query
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <div className="flex flex-col gap-2 p-2">
-                            <Button
-                                onClick={() => DeleteQueryHandle()}
-                                size="small"
-                                color="primary"
-                                variant="flat"
-                                as={Link}
-                                href="/database/query/edit"
-                            >
-                                Confirm
-                            </Button>
-                        </div>
-                    </PopoverContent>
-                </Popover>
             </div>
         </div>
     );

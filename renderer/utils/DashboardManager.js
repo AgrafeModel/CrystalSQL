@@ -57,6 +57,12 @@ export function DashboardContextProvider({ children }) {
 
 
     const updateWidget = (widget) => {
+        //check if widget width and height are valid (>0)
+        if(widget.width <= 0 || widget.height <= 0){
+            //set to 1
+            widget.width = 1;
+            widget.height = 1;
+        }
         setDashboardList(dashboardList.map(dashboard => {
             if(dashboard.id === widget.dashboardId){
                 dashboard.widgets = dashboard.widgets.map(w => {
@@ -71,6 +77,12 @@ export function DashboardContextProvider({ children }) {
     }
 
     const addWidget = (widget) => {
+        //check if widget width and height are valid (>0)
+        if(widget.width <= 0 || widget.height <= 0){
+            //set to 1
+            widget.width = 1;
+            widget.height = 1;
+        }
         setDashboardList(dashboardList.map(dashboard => {
             if(dashboard.id === widget.dashboardId){
                 //get a new id for the widget
