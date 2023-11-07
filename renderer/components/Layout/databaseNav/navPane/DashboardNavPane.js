@@ -35,15 +35,15 @@ export default function DashboardNavPane({ connectionInfo }) {
             </div>
             <div className="flex flex-col w-full items-start justify-start">
                 {dashboardList.map((dashboard, index) => (
-                    <div key={index} className="flex flex-row w-full items-center justify-start my-2">
+                    <div key={index} className="flex flex-row w-full items-center justify-start">
                         <Button
                             color="primary"
                             variant={navPaneCurrentSelected.dashboard === dashboard.id ? "flat" : "light"}
                             onClick={() => updateNavPaneCurrentSelected('dashboard',dashboard.id)}
                             size="small"
-                            className="w-full"
                             as={Link}
                             href={`/database/dashboard?dashboardId=${dashboard.id}`}
+                            className="w-full text-left justify-start"
                         >
                             {dashboard.title}
                         </Button>

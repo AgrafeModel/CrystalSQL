@@ -5,7 +5,7 @@ import {faPlug} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import EditConnectionModal from './EditConnectionModal';
 import { useRouter } from 'next/router';
-
+import { useNavigation } from '../../utils/NavigationContext';
 
 function ConnectionCard({ connection, connectionList, setConnectionList }) {
     const connectionIMG = {
@@ -20,6 +20,7 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
     const router = useRouter()
     const [connectionError, setConnectionError] = React.useState(null)
     const [connectionLoading, setConnectionLoading] = React.useState(false)
+    const { setCurrentConnection } = useNavigation()
 
     const connect = () => {
         setConnectionLoading(true)
@@ -38,6 +39,8 @@ function ConnectionCard({ connection, connectionList, setConnectionList }) {
                 console.log(event)
                 //Save the data in local storage
                 localStorage.setItem('connection', JSON.stringify(event.data))
+                //set current connection
+                setCurrentConnection(event.data)
                //change front end page to database page
                 router.push('/database', null, { shallow: true });
             }

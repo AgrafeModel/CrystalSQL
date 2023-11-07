@@ -9,7 +9,8 @@ config.autoAddCss = false;
 import { NavigationProvider } from "../utils/NavigationContext";
 import { QueryContextProvider } from "../utils/QueryManager";
 import { DashboardContextProvider } from "../utils/DashboardManager";
-
+import {TablesContextProvider} from "../utils/TablesManager";
+ 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <NextUIProvider>
@@ -34,7 +35,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <NavigationProvider>
           <QueryContextProvider>
             <DashboardContextProvider>
+              <TablesContextProvider>
               <Component {...pageProps} />
+              </TablesContextProvider>
             </DashboardContextProvider>
           </QueryContextProvider>
         </NavigationProvider>

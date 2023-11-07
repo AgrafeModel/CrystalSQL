@@ -14,7 +14,7 @@ export function NavigationProvider({ children }) {
     //Here we define the state of the navigation context of the application. ex: the current selected section in the sidebar (dashboard,query,database.
     const [sidebarSectionSelected,setSidebarSectionSelected] = useState('dashboard');
     const [navPaneCurrentSelected,setNavPaneCurrentSelected] = useState({database:null,query:null,dashboard:null});//instead of using a single variable for each nav pane we use an object that contains the current selected item of each nav pane
-
+    const [currentConnection,setCurrentConnection] = useState(null);
     const updateNavPaneCurrentSelected = (navPane,selectedItem) => {
         Object.keys(navPaneCurrentSelected).forEach((navPane) => {
             navPaneCurrentSelected[navPane] = null;
@@ -22,9 +22,16 @@ export function NavigationProvider({ children }) {
         navPaneCurrentSelected[navPane] = selectedItem;
     }
 
+    React.useEffect(() => {
+        const connection = localStorage.getItem('connection');
+        if(connection){
+            setCurrentConnection(JSON.parse(connection));
+        }
+    },[])
+
 
     return(
-        <NavigationContext.Provider value={{sidebarSectionSelected,setSidebarSectionSelected,navPaneCurrentSelected,setNavPaneCurrentSelected,updateNavPaneCurrentSelected}}>
+        <NavigationContext.Provider value={{sidebarSectionSelected,setSidebarSectionSelected,navPaneCurrentSelected,setNavPaneCurrentSelected,updateNavPaneCurrentSelected,currentConnection,setCurrentConnection}}>
             {children}
         </NavigationContext.Provider>
     )

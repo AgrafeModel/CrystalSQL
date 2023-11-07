@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const Store = require('electron-store');
+import Sequelize from 'sequelize';
+import Store from 'electron-store';
 
 //store for saving connections locally
 const store = new Store({
@@ -132,13 +132,38 @@ async function makeQuery(query) {
 }
 
 
+/**
+ * @brief Get tables of the current database connection
+ */
+async function getTables(){
+    //get the sequelize instance
+    const sequelize = databaseInstance.sequelize;
+    //check if sequelize instance is set
+    if(sequelize === null){
+        //get current connection from store
+        const connection = store.get('currentConnection');
+        //if connection is not set return error
+        if(connection === undefined){
+            return { success: false, message: 'No connection set' };
+        }
+        //connect to database
+        await connectToDatabase(connection);
+
+    }
+    //make query
+    try {
+        const result = await sequelize.query("SHOW TABLES", { type: Sequelize.QueryTypes.SELECT });
+        let tables = [];
+        result.forEach((table) => {
+            tables.push(table[`Tables_in_${databaseInstance.connection.database}`]);
+        });
+        return { success: true, data: tables };
+    }
+    catch (error) {
+        return { success: false, message: `Query failed: ${error.message}` };
+    }
+}
 
 
-module.exports = {
-    createDatabaseConnection,
-    testConnection,
-    connectToDatabase,
-    disconnectFromDatabase,
-    makeQuery,
-    databaseInstance
-};
+
+export { connectToDatabase, disconnectFromDatabase, makeQuery, getTables, databaseInstance, store };

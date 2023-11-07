@@ -45,14 +45,11 @@ function Sidebar() {
                 <FirstPaneButton icon={faDatabase} text="Database" selected={sidebarSectionSelected === 'database'} onClick={() => setSidebarSectionSelected('database')} />
             </div>
             <Divider orientation="vertical" />
-            <div id="second-pane" className="flex flex-col w-full h-full pt-4">
+            <div id="second-pane" className="flex flex-row w-full h-full pt-4 w-3/4 items-start justify-start">
                 {sidebarSectionSelected === 'dashboard' && <DashboardNavPane connectionInfo={connectionInfo} />}
                 {sidebarSectionSelected === 'query' && <QueryNavPane connectionInfo={connectionInfo} />}
                 {sidebarSectionSelected === 'database' && <DatabaseNavPane connectionInfo={connectionInfo} />}
-
-
             </div>
-            <Divider orientation="vertical" />
         </aside>
     )
 }

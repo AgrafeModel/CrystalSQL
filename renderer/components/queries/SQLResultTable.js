@@ -34,7 +34,7 @@ export default function SQLResultTable({ queryResult, queryError }) {
             }
             {queryResult && queryResult.length > 0 ?
                 <>
-                    <div class="relative overflow-x-auto shadow-md bg-white dark:bg-primary-800 min-h-max">
+                    <div class="relative overflow-x-auto shadow-md h-full">
                         <table class="w-full text-xs text-left divide-y divide-gray-200 dark:divide-gray-700 dark:text-gray-400">
                             <thead class="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800">
                                 <tr>

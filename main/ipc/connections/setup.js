@@ -1,7 +1,7 @@
 const { ipcMain } = require('electron');
 const Store = require('electron-store');
 const Sequelize = require('sequelize');
-const { createDatabaseConnection, testConnection, connectToDatabase, disconnectFromDatabase, makeQuery } = require('../../helpers/database');
+const { createDatabaseConnection, testConnection, connectToDatabase, disconnectFromDatabase, makeQuery,getTables } = require('../../helpers/database');
 const { connectionStore } = require('../../helpers/stores');
 
 
@@ -96,6 +96,17 @@ function setupConnectionEvent() {
         const connection = connectionStore.get('connection')
         event.reply('database-connection', connection)
     })
+
+
+    //get current database tables
+    ipcMain.on('get-database-tables', (event, arg) => {
+        getTables().then(
+            response => {
+                event.reply('database-tables', response)
+            }
+        )
+    })
+
 
 
 }
